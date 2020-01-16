@@ -1,10 +1,14 @@
-fn main() {
-    const N: i32 = 5;
-    let x: i32 = 100;
-    let add = |a, b| a + b;
-    println!("{} + {} = {} {}", N, x, sum(N, x), add(N, x));
-}
+mod vec3d;
 
-fn sum(a: i32, b: i32) -> i32 {
-  a + b
+use crate::vec3d::Vec3D;
+use crate::vec3d::VecMath;
+
+fn main() {
+    let a: Vec3D = Vec3D(2.0, 2.0, 2.0, 2.0);
+    let b: Vec3D = Vec3D(1.0, 1.0, 1.0, 1.0);
+
+    println!("{} dot {} = {}", a, b, a.dot(&b));
+    println!("{} + {} = {}", a, b, a.add(&b));
+    println!("{} - {} = {}", a, b, a.subtract(&b));
+    println!("{} cross {} = {}", a, b, a.cross(&b));
 }
