@@ -1,9 +1,10 @@
 mod vec3d;
 mod ray;
 mod png_writer;
+mod ray_tracer;
+mod color;
 
 use crate::vec3d::Vec3D;
-use crate::vec3d::VecMath;
 use crate::png_writer::write_png;
 use crate::png_writer::IMAGE_DATA_SIZE;
 

@@ -1,4 +1,4 @@
-use crate::vec3d::{Vec3D, VecMath};
+use crate::vec3d::{Vec3D};
 
 #[derive(Debug)]
 #[derive(PartialEq)]

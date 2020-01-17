@@ -17,51 +17,38 @@ impl fmt::Display for Vec3D {
     }
 }
 
-pub trait VecMath {
+impl Vec3D {
+
     // Scales this vector by the given scalar `scale_factor`.
-    fn scale(&self, scale_factor: f64) -> Vec3D;
-
-    // Computes the sum of this vector and `other`.
-    fn add(&self, other: &Vec3D) -> Vec3D;
-
-    // Computes the difference of this vector and `other`.
-    fn subtract(&self, other: &Vec3D) -> Vec3D {
-        self.add(&other.scale(-1.0))
-    }
-
-    // Normalizes this vector to have length 1.
-    fn normalize(&self) -> Vec3D;
-
-    // Computes the dot product of this vector and `other`.
-    fn dot (&self, other : &Vec3D) -> f64;
-
-    // Computes the cross product of this vector and `other`.
-    fn cross(&self, other: &Vec3D) -> Vec3D;
-}
-
-impl VecMath for Vec3D {
-
-    fn scale(&self, scale_factor: f64) -> Vec3D {
+    pub fn scale(&self, scale_factor: f64) -> Vec3D {
         let Vec3D(x, y, z, w) = self;
 
         Vec3D(x * scale_factor, y * scale_factor, z * scale_factor, *w)
     }
 
-    fn add(&self, other: &Vec3D) -> Vec3D {
+    // Computes the sum of this vector and `other`.
+    pub fn add(&self, other: &Vec3D) -> Vec3D {
         let Vec3D(x1, y1, z1, w1) = self;
         let Vec3D(x2, y2, z2, w2) = other;
 
         Vec3D(x1 + x2, y1 + y2, z1 + z2, (w1 + w2).min(1.0))
     }
 
-    fn dot(&self, other: &Vec3D) -> f64 {
+    // Computes the difference of this vector and `other`.
+    pub fn subtract(&self, other: &Vec3D) -> Vec3D {
+        self.add(&other.scale(-1.0))
+    }
+
+    // Computes the dot product of this vector and `other`.
+    pub fn dot(&self, other: &Vec3D) -> f64 {
         let Vec3D(x1, y1, z1, _) = self;
         let Vec3D(x2, y2, z2, _) = other;
 
         x1 * x2 + y1 * y2 + z1 * z2
     }
 
-    fn cross(&self, other: &Vec3D) -> Vec3D {
+    // Computes the cross product of this vector and `other`.
+    pub fn cross(&self, other: &Vec3D) -> Vec3D {
         let Vec3D(x1, y1, z1, _) = self;
         let Vec3D(x2, y2, z2, _) = other;
 
@@ -72,7 +59,8 @@ impl VecMath for Vec3D {
         )
     }
 
-    fn normalize(&self) -> Vec3D {
+    // Normalizes this vector to have length 1.
+    pub fn normalize(&self) -> Vec3D {
         let Vec3D(x, y, z, w) = self;
         let length = (x * x + y * y + z * z).sqrt();
 
@@ -105,6 +93,12 @@ mod tests {
         let y = Vec3D(4.0, 3.0, 2.0, 1.0);
         let expected = Vec3D(-3.0, -1.0, 1.0, 1.0);
         assert_eq!(x.subtract(&y), expected);
+    }
+
+    #[test]
+    fn normalize_basic_cases() {
+        let a = Vec3D::new(1.0, 1.0, 1.0);
+        assert_eq!(a.normalize(), Vec3D::new(1.0 / 3.0_f64.sqrt(), 1.0 / 3.0_f64.sqrt(), 1.0 / 3.0_f64.sqrt()))
     }
 
     #[test]
