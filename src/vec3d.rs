@@ -1,5 +1,7 @@
 use std::fmt;
 
+#[derive(Debug)]
+#[derive(PartialEq)]
 pub struct Vec3D(pub f64, pub f64, pub f64, pub f64);
 
 impl Vec3D {
@@ -75,5 +77,61 @@ impl VecMath for Vec3D {
         let length = (x * x + y * y + z * z).sqrt();
 
         Vec3D(x / length, y / length, z / length, *w)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use assert_approx_eq::assert_approx_eq;
+
+    const ZERO_VEC : Vec3D = Vec3D(0.0, 0.0, 0.0, 0.0);
+
+    #[test]
+    fn add_basic_cases() {
+        assert_eq!(ZERO_VEC.add(&ZERO_VEC), ZERO_VEC);
+
+        let x = Vec3D(1.0, 2.0, 3.0, 4.0);
+        let y = Vec3D(4.0, 3.0, 2.0, 1.0);
+        let expected = Vec3D(5.0, 5.0, 5.0, 1.0);
+        assert_eq!(x.add(&y), expected);
+    }
+
+    #[test]
+    fn subtract_basic_cases() {
+        assert_eq!(ZERO_VEC.subtract(&ZERO_VEC), ZERO_VEC);
+
+        let x = Vec3D(1.0, 2.0, 3.0, 4.0);
+        let y = Vec3D(4.0, 3.0, 2.0, 1.0);
+        let expected = Vec3D(-3.0, -1.0, 1.0, 1.0);
+        assert_eq!(x.subtract(&y), expected);
+    }
+
+    #[test]
+    fn dot_basic_cases() {
+        assert_eq!(ZERO_VEC.dot(&ZERO_VEC), 0.0);
+
+        let p1 = Vec3D::new(1.0, -2.0, 3.0);
+        assert_eq!(p1.dot(&ZERO_VEC), 0.0);
+
+        let p2 = Vec3D::new(-4.0, 4.0, 4.0);
+        assert_eq!(p1.dot(&p2), 0.0);
+
+        let p3 = Vec3D::new(1.0, 2.0, 2.0);
+        assert_eq!(p1.dot(&p3), 3.0);
+
+        assert_eq!(p2.dot(&p3), 12.0);
+    }
+
+    #[test]
+    fn cross_basic_cases() {
+        let p1 = Vec3D::new(5.5, 6.8, -1.2);
+        let p2 = Vec3D::new(-9.9, -10.1, -5.2);
+        let crossed = p1.cross(&p2);
+        // Check that cross sign is opposite depending on order.
+        assert_eq!(crossed.scale(-1.0), p2.cross(&p1));
+        // Check that cross is perpendicular to both input vectors.
+        assert_approx_eq!(p1.dot(&crossed), 0.0);
+        assert_approx_eq!(p2.dot(&crossed), 0.0);
     }
 }
