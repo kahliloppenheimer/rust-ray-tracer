@@ -8,6 +8,7 @@ pub struct Ray<'a> {
 }
 
 impl Ray<'_> {
+    // Returns the position of the ray at time `t`.
     fn at_time(&self, t : f64) -> Vec3D {
         self.start.add(&self.direction.scale(t))
     }
