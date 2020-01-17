@@ -1,4 +1,5 @@
 mod vec3d;
+mod ray;
 mod png_writer;
 
 use crate::vec3d::Vec3D;

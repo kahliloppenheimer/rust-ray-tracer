@@ -5,7 +5,7 @@ use std::fmt;
 pub struct Vec3D(pub f64, pub f64, pub f64, pub f64);
 
 impl Vec3D {
-    fn new(x: f64, y: f64, z: f64) -> Vec3D {
+    pub fn new(x: f64, y: f64, z: f64) -> Vec3D {
         Vec3D(x, y, z, 0.0)
     }
 }
