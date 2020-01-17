@@ -17,7 +17,7 @@ pub fn write_png(path_name: &str, data: &[u8]) {
     let file = File::create(path).unwrap();
     let ref mut w = BufWriter::new(file);
 
-    let mut encoder = png::Encoder::new(w, IMAGE_WIDTH, IMAGE_HEIGHT); // Width is 2 pixels and height is 1.
+    let mut encoder = png::Encoder::new(w, IMAGE_WIDTH, IMAGE_HEIGHT);
     encoder.set_color(png::ColorType::RGB);
     encoder.set_depth(png::BitDepth::Eight);
     let mut writer = encoder.write_header().unwrap();
