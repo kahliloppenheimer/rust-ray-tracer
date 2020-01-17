@@ -1,7 +1,6 @@
 use crate::vec3d::{Vec3D};
 
-#[derive(Debug)]
-#[derive(PartialEq)]
+#[derive(Debug, PartialEq)]
 pub struct Ray<'a> {
     start : &'a Vec3D,
     direction : &'a Vec3D,
